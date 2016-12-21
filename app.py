@@ -1,4 +1,5 @@
-#!/usr/bin/env python
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 import urllib
 import json
@@ -9,6 +10,7 @@ from flask import request
 from flask import make_response
 
 # Flask app should start in global layout
+
 app = Flask(__name__)
 
 
@@ -16,26 +18,29 @@ app = Flask(__name__)
 def webhook():
     req = request.get_json(silent=True, force=True)
 
-    print("Request:")
-    print(json.dumps(req, indent=4))
+    print 'Request:'
+    print json.dumps(req, indent=4)
 
     res = processRequest(req)
 
     res = json.dumps(res, indent=4)
+
     # print(res)
+
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
     return r
 
 
 def processRequest(req):
-    if req.get("result").get("action") != "verificarCpf":
+    if req.get('result').get('action') != 'verificarCpf':
         return {}
-    baseurl = "https://query.yahooapis.com/v1/public/yql?"
+    baseurl = 'https://query.yahooapis.com/v1/public/yql?'
     yql_query = makeYqlQuery(req)
     if yql_query is None:
         return {}
-    yql_url = baseurl + urllib.urlencode({'q': yql_query}) + "&format=json"
+    yql_url = baseurl + urllib.urlencode({'q': yql_query}) \
+        + '&format=json'
     result = urllib.urlopen(yql_url).read()
     data = json.loads(result)
     res = makeWebhookResult(data, req)
@@ -43,13 +48,14 @@ def processRequest(req):
 
 
 def makeYqlQuery(req):
-    result = req.get("result")
-    parameters = result.get("parameters")
-    city = parameters.get("cpf")
+    result = req.get('result')
+    parameters = result.get('parameters')
+    city = parameters.get('cpf')
     if city is None:
         return None
 
-    return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + city + "')"
+    return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" \
+        + city + "')"
 
 
 def makeWebhookResult(data, req):
@@ -68,7 +74,7 @@ def makeWebhookResult(data, req):
     item = channel.get('item')
     location = channel.get('location')
     units = channel.get('units')
-    if (location is None) or (item is None) or (units is None):
+    if location is None or item is None or units is None:
         return {}
 
     condition = item.get('condition')
@@ -77,31 +83,32 @@ def makeWebhookResult(data, req):
 
     # print(json.dumps(item, indent=4))
 
-    speech = "Today in " + location.get('city') + ": " + condition.get('text') + \
-             ", the temperature is " + condition.get('temp') + " " + units.get('temperature')
+    speech = 'Today in ' + location.get('city') + ': ' \
+        + condition.get('text') + ', the temperature is ' \
+        + condition.get('temp') + ' ' + units.get('temperature')
 
-    print("Response:")
-    print(speech)
-    cpf = int(req.get("result").get("parameters").get("cpf").get("number"))
-    
+    print 'Response:'
+    print speech
+    cpf = int(req.get('result').get('parameters').get('cpf'
+              ).get('number'))
+
     if cpf is 123:
-        speech = """ Ah, então você já é cliente!,Agora preciso confirmar alguns dados com você: 
-                     O INSS|SIAPE|ETC continua sendo sua fonte pagadora?"""
+        speech = \
+            ' Ah, ent\xc3\xa3o voc\xc3\xaa j\xc3\xa1 \xc3\xa9 cliente!,Agora preciso confirmar alguns dados com voc\xc3\xaa: \n                     O INSS|SIAPE|ETC continua sendo sua fonte pagadora?'
     else:
-        speech = """ Você ainda não é cliente do Banco Agiplan?,Então seja bem vindo!,
-                     Você é funcionário público, aposentado ou pensionista?"""
-    return {
-        "speech": speech,
-        "displayText": speech,
-        # "data": data,
-        "contextOut": req.get("contexts"),
-        "source": "apiai-weather-webhook-sample"
-    }
+        speech = \
+            ' Voc\xc3\xaa ainda n\xc3\xa3o \xc3\xa9 cliente do Banco Agiplan?,Ent\xc3\xa3o seja bem vindo!,\n                     Voc\xc3\xaa \xc3\xa9 funcion\xc3\xa1rio p\xc3\xbablico, aposentado ou pensionista?'
+    return {  # "data": data,
+        'speech': speech,
+        'displayText': speech,
+        'contextOut': req.get('contexts'),
+        'source': 'apiai-weather-webhook-sample',
+        }
 
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
 
-    print ("Starting app on port %d" % port)
+    print 'Starting app on port %d' % port
 
     app.run(debug=False, port=port, host='0.0.0.0')
