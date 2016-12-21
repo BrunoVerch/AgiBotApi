@@ -43,7 +43,7 @@ def processRequest(req):
     cpf = parameters.get("cpf")
 
     texto = ""
-    if cpf is "123":
+    if cpf.get("number") is "123":
         texto = "Parabéns"
     else:
         texto = "Não parabéns"
