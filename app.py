@@ -40,7 +40,7 @@ def processRequest(req):
     # data = json.loads(result)
     # res = makeWebhookResult(data)
 
-    cpf = req.get("result").get("parameters").get("cpf")
+    cpf = int(req.get("result").get("parameters").get("cpf").get("number"))
 
     return {
         "speech": cpf,
