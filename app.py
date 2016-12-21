@@ -82,7 +82,14 @@ def makeWebhookResult(data, req):
 
     print("Response:")
     print(speech)
-
+    cpf = int(req.get("result").get("parameters").get("cpf").get("number"))
+    
+    if cpf is 123:
+        speech = """ Ah, então você já é cliente!,Agora preciso confirmar alguns dados com você: 
+                     O INSS|SIAPE|ETC continua sendo sua fonte pagadora?"""
+    else:
+        speech = """ Você ainda não é cliente do Banco Agiplan?,Então seja bem vindo!,
+                     Você é funcionário público, aposentado ou pensionista?"""
     return {
         "speech": speech,
         "displayText": speech,
