@@ -40,10 +40,11 @@ def processRequest(req):
     # data = json.loads(result)
     result = req.get("result")
     parameters = result.get("parameters")
-    cpf = parameters.get("cpf")
+    cpfObjeto = parameters.get("cpf")
+    cpfNumero = cpfObjeto.get("number")
 
-    texto = ""
-    if cpf.get("number") is "123":
+    texto = "eae"
+    if cpfNumero == 123:
         texto = "Parabéns"
     else:
         texto = "Não parabéns"
