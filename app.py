@@ -51,8 +51,8 @@ def processRequest(req):
     
 
     return {
-        "speech": cpfObjeto,
-        "displayText": cpfObjeto,
+        "speech": "eae",
+        "displayText": "eae",
         # "data": data,
         # "contextOut": [],
         "source": "apiai-weather-webhook-sample"
