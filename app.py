@@ -61,7 +61,7 @@ def processRequest(req):
         "speech": texto,
         "displayText": texto,
         # "data": data,
-        "contextOut": contexts,
+        "contextOut": [{"name": context_ealvo, "lifespan": 2}],
         "source": "apiai-weather-webhook-sample"
     }
 
