@@ -41,18 +41,18 @@ def processRequest(req):
     result = req.get("result")
     parameters = result.get("parameters")
     cpfObjeto = parameters.get("cpf")
-    cpfNumero = cpfObjeto.get("number")
+    # cpfNumero = cpfObjeto.get("number")
 
-    texto = "eae"
-    if cpfNumero == 123:
-        texto = "Parabéns"
-    else:
-        texto = "Não parabéns"
+    # texto = "eae"
+    # if cpfNumero == 123:
+    #     texto = "Parabéns"
+    # else:
+    #     texto = "Não parabéns"
     
 
     return {
-        "speech": texto,
-        "displayText": texto,
+        "speech": cpfObjeto,
+        "displayText": cpfObjeto,
         # "data": data,
         # "contextOut": [],
         "source": "apiai-weather-webhook-sample"
