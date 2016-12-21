@@ -41,10 +41,15 @@ def processRequest(req):
     # res = makeWebhookResult(data)
 
     cpf = int(req.get("result").get("parameters").get("cpf").get("number"))
+    texto = "jufs"
+    if cpf is 123:
+        texto = "eae"
+    else:
+        texto = "oi"
 
     return {
-        "speech": cpf,
-        "displayText": cpf,
+        "speech": texto,
+        "displayText": texto,
         # "data": data,
         # "contextOut": [],
         "source": "apiai-weather-webhook-sample"
