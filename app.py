@@ -94,7 +94,7 @@ def makeWebhookResult(req):
     cpf = int(req.get('result').get('parameters').get('cpf'
               ).get('number'))
 
-    arr = req.get('contexts')
+    arr = req.get('result').get('contexts')
     if cpf is 123:
         speech = \
             ' Ah, ent\xc3\xa3o voc\xc3\xaa j\xc3\xa1 \xc3\xa9 cliente!,Agora preciso confirmar alguns dados com voc\xc3\xaa: \n                     O INSS|SIAPE|ETC continua sendo sua fonte pagadora?'
