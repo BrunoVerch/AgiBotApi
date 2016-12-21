@@ -87,22 +87,27 @@ def makeWebhookResult(req):
     #     + condition.get('text') + ', the temperature is ' \
     #     + condition.get('temp') + ' ' + units.get('temperature')
     speech = 'aa'
-    print 'Response:'
-    print speech
+    ctx = 'creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-épublicoalvo'
+    ctx1 = 'creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-naoépublicoalvo'
+    ctx2 = 'creditoconsignado-solicitacaoemprestimo-confirmardadoscliente'
+
     cpf = int(req.get('result').get('parameters').get('cpf'
               ).get('number'))
 
-
+    arr = req.get('contexts')
     if cpf is 123:
         speech = \
             ' Ah, ent\xc3\xa3o voc\xc3\xaa j\xc3\xa1 \xc3\xa9 cliente!,Agora preciso confirmar alguns dados com voc\xc3\xaa: \n                     O INSS|SIAPE|ETC continua sendo sua fonte pagadora?'
+        arr = [value for value in arr if value.get('name') != ctx and value.get(name) != ctx1 ]
     else:
         speech = \
             ' Voc\xc3\xaa ainda n\xc3\xa3o \xc3\xa9 cliente do Banco Agiplan?,Ent\xc3\xa3o seja bem vindo!,\n                     Voc\xc3\xaa \xc3\xa9 funcion\xc3\xa1rio p\xc3\xbablico, aposentado ou pensionista?'
+        arr = [value for value in arr if value.get('name') != ctx2 ]
+
     return {  # "data": data,
         'speech': speech,
         'displayText': speech,
-        'contextOut': req.get('contexts'),
+        'contextOut': arr,
         'source': 'apiai-weather-webhook-sample',
         }
 
