@@ -87,7 +87,7 @@ def makeWebhookResult(data):
         "speech": speech,
         "displayText": speech,
         # "data": data,
-        "contextOut": [{"name": "creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-épublicoalvo", "lifespan": 3, "parameters": {}}],
+        "contextOut": data.get("contexts"),
         "source": "apiai-weather-webhook-sample"
     }
 
