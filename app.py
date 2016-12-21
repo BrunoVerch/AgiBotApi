@@ -42,16 +42,20 @@ def processRequest(req):
 
     cpf = int(req.get("result").get("parameters").get("cpf").get("number"))
     texto = "jufs"
+    contexts = []
     if cpf is 123:
-        texto = "eae"
+        texto = "Você ainda não é cliente do Banco Agiplan? Então seja bem vindo! Você é funcionário público, aposentado ou pensionista?"
+        contexts.append({ "name": "creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-épublicoalvo", "lifespan": 2 })
+        contexts.append({ "name": "creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-nãoépublicoalvo", "lifespan": 2 })
     else:
-        texto = "oi"
+        texto = "Sua fonte pagadora continua sendo o INSS?"
+        contexts.append({ "name": "creditoconsignado-solicitacaoemprestimo-confirmardadoscliente", "lifespan": 2 })
 
     return {
         "speech": texto,
         "displayText": texto,
         # "data": data,
-        # "contextOut": [],
+        "contextOut": contexts,
         "source": "apiai-weather-webhook-sample"
     }
 
