@@ -42,14 +42,20 @@ def processRequest(req):
 
     cpf = int(req.get("result").get("parameters").get("cpf").get("number"))
     texto = "jufs"
+
+    context_ealvo = "creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-épublicoalvo"
+    context_nalvo = "creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-nãoépublicoalvo"
+    context_confirmadados = "creditoconsignado-solicitacaoemprestimo-confirmardadoscliente"
+
     contexts = []
     if cpf is 123:
-        texto = "Você ainda não é cliente do Banco Agiplan? Então seja bem vindo! Você é funcionário público, aposentado ou pensionista?"
-        contexts.append({ "name": "creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-épublicoalvo", "lifespan": 2 })
-        contexts.append({ "name": "creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-nãoépublicoalvo", "lifespan": 2 })
+        texto = "Você ainda não é cliente do Banco Agiplan? Então seja bem vindo!"
+        texto = texto + " Você é funcionário público, aposentado ou pensionista?"
+        contexts.append({"name": context_ealvo, "lifespan": 2})
+        contexts.append({"name": context_nalvo, "lifespan": 2})
     else:
         texto = "Sua fonte pagadora continua sendo o INSS?"
-        contexts.append({ "name": "creditoconsignado-solicitacaoemprestimo-confirmardadoscliente", "lifespan": 2 })
+        contexts.append({"name": context_confirmadados, "lifespan": 2})
 
     return {
         "speech": texto,
