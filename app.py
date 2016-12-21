@@ -86,11 +86,12 @@ def makeWebhookResult(req):
     # speech = 'Today in ' + location.get('city') + ': ' \
     #     + condition.get('text') + ', the temperature is ' \
     #     + condition.get('temp') + ' ' + units.get('temperature')
-
+    speech = 'aa'
     print 'Response:'
     print speech
     cpf = int(req.get('result').get('parameters').get('cpf'
               ).get('number'))
+
 
     if cpf is 123:
         speech = \
