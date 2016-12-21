@@ -40,13 +40,9 @@ def processRequest(req):
     data = json.loads(result)
     res = makeWebhookResult(data)
 
-    result = req.get("result")
-    parameters = result.get("parameters")
-    city = parameters.get("cpf")
-
     return {
-        "speech": city,
-        "displayText": city,
+        "speech": "apiai-weather-webhook-sample",
+        "displayText": "apiai-weather-webhook-sample",
         # "data": data,
         # "contextOut": [],
         "source": "apiai-weather-webhook-sample"
