@@ -55,15 +55,18 @@ def verificarCpf(req):
     if cpf is 123:
         contextosDeSaida.append({"name":contextos[2], "lifespan":2, "parameters":{}})
 
-        contextosDaRequisicao = req.get('result').get('contexts')
-        dto = [v for v in contextosDaRequisicao if v.get('name') == contextos[3]]
-        contextosDaRequisicao.remove(dto[0])
-        dto[0].get('parameters')['perfilCliente'] = 'aposentado'
-        dto[0].get('parameters')['fontePagamento'] = 'INSS'
-        contextosDaRequisicao.append(dto[0])
+        contextosDeSaida.append({"name":contextos[3], "lifespan":5, "parameters":{ "perfilCliente":"aposentado", "fontePagamento":"INSS" }})
+
+        # contextosDaRequisicao = req.get('result').get('contexts')
+        # dto = [v for v in contextosDaRequisicao if v.get('name') == contextos[3]]
+        # contextosDaRequisicao.remove(dto[0])
+        # dto[0].get('parameters')['perfilCliente'] = 'aposentado'
+        # dto[0].get('parameters')['fontePagamento'] = 'INSS'
+        # contextosDaRequisicao.append(dto[0])
 
         textoSaida = ' Ah, ent\xc3\xa3o voc\xc3\xaa j\xc3\xa1 \xc3\xa9 cliente!,Agora preciso confirmar alguns dados com voc\xc3\xaa: \n                     O INSS|SIAPE|ETC continua sendo sua fonte pagadora?'        
     else:
+        contextosDeSaida.append({"name":contextos[3], "lifespan":5, "parameters":{}})
         contextosDeSaida.append({"name":contextos[1], "lifespan":3, "parameters":{}})
         contextosDeSaida.append({"name":contextos[0], "lifespan":6, "parameters":{}})
         textoSaida = ' Voc\xc3\xaa ainda n\xc3\xa3o \xc3\xa9 cliente do Banco Agiplan?,Ent\xc3\xa3o seja bem vindo!,\n                     Voc\xc3\xaa \xc3\xa9 funcion\xc3\xa1rio p\xc3\xbablico, aposentado ou pensionista?'
