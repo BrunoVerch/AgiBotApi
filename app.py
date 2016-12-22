@@ -14,10 +14,10 @@ from flask import make_response
 app = Flask(__name__)
 
 contextos = [
-    'creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-épublicoalvo'
-    'creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-naoépublicoalvo'
-    'creditoconsignado-solicitacaoemprestimo-confirmardadoscliente'
-    'creditoconsignado-solicitacaoemprestimo-dto'
+    'creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-épublicoalvo',
+    'creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-naoépublicoalvo',
+    'creditoconsignado-solicitacaoemprestimo-confirmardadoscliente',
+    'creditoconsignado-solicitacaoemprestimo-dto',
 ]
 
 @app.route('/webhook', methods=['POST'])
