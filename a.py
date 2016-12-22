@@ -105,7 +105,9 @@ contextos = [
 
 contextosDaRequisicao = req.get('result').get('contexts')
 dto = [v for v in contextosDaRequisicao if v.get('name') == contextos[3]]
+contextosDaRequisicao.remove(dto[0])
 dto[0].get('parameters')['perfilCliente'] = 'aposentado'
 dto[0].get('parameters')['fontePagamento'] = 'INSS'
+contextosDaRequisicao.append(dto[0])
 
-print(dto[0].get('parameters')['perfilCliente'])
+print(len(contextosDaRequisicao))
