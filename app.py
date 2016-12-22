@@ -54,9 +54,10 @@ def verificarCpf(req):
 
     if cpf is 123:
         contextosDeSaida.append({"name":contextos[2], "lifespan":2, "parameters":{}})
-        
+
         contextosDaRequisicao = req.get('result').get('contexts')
         dto = [v for v in contextosDaRequisicao if v.get('name') == contextos[3]]
+        dto[0].get('parameters')['perfilCliente'] = 'aposentado'
         dto[0].get('parameters')['fontePagamento'] = 'INSS'
 
         textoSaida = ' Ah, ent\xc3\xa3o voc\xc3\xaa j\xc3\xa1 \xc3\xa9 cliente!,Agora preciso confirmar alguns dados com voc\xc3\xaa: \n                     O INSS|SIAPE|ETC continua sendo sua fonte pagadora?'        
