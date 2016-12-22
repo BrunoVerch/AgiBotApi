@@ -97,12 +97,15 @@ def makeWebhookResult(req):
     arr = req.get('result').get('contexts')
     saida = []
     if cpf is 123:
-        saida = [v for v in arr if v.get('name') != ctx and v.get('name') != ctx1 ]
+        # saida = [v for v in arr if v.get('name') != ctx and v.get('name') != ctx1 ]
+        saida.append({"name":"creditoconsignado-solicitacaoemprestimo-confirmardadoscliente", "lifespan":2, "parameters":{}})
         speech = str(len(saida))# \
              #+ ' Ah, ent\xc3\xa3o voc\xc3\xaa j\xc3\xa1 \xc3\xa9 cliente!,Agora preciso confirmar alguns dados com voc\xc3\xaa: \n                     O INSS|SIAPE|ETC continua sendo sua fonte pagadora?'
         
     else:
-        saida = [v for v in arr if v.get('name') != ctx2 ]
+        # saida = [v for v in arr if v.get('name') != ctx2 ]
+        saida.append({"name":"creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-naoépublicoalvo", "lifespan":2, "parameters":{}})
+        saida.append({"name":"creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-épublicoalvo", "lifespan":2, "parameters":{}})
         speech = str(len(saida))#\
             #len(arr) + ' Voc\xc3\xaa ainda n\xc3\xa3o \xc3\xa9 cliente do Banco Agiplan?,Ent\xc3\xa3o seja bem vindo!,\n                     Voc\xc3\xaa \xc3\xa9 funcion\xc3\xa1rio p\xc3\xbablico, aposentado ou pensionista?'
 
