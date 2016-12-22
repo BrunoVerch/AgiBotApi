@@ -13,10 +13,11 @@ from flask import make_response
 
 app = Flask(__name__)
 
-contexts = [
+contextos = [
     'creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-épublicoalvo'
     'creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-naoépublicoalvo'
     'creditoconsignado-solicitacaoemprestimo-confirmardadoscliente'
+    'creditoconsignado-solicitacaoemprestimo-dto'
 ]
 
 @app.route('/webhook', methods=['POST'])
@@ -52,11 +53,16 @@ def verificarCpf(req):
     cpf = int(req.get('result').get('parameters').get('cpf').get('number'))
 
     if cpf is 123:
-        contextosDeSaida.append({"name":"creditoconsignado-solicitacaoemprestimo-confirmardadoscliente", "lifespan":2, "parameters":{}})
+        contextosDeSaida.append({"name":contextos[2], "lifespan":2, "parameters":{}})
+        
+        contextosDaRequisicao = req.get('result').get('contexts')
+        dto = [v for v in contextosDaRequisicao if v.get('name') == contextos[3]]
+        dto[0].get('parameters')['fontePagamento'] = 'INSS'
+
         textoSaida = ' Ah, ent\xc3\xa3o voc\xc3\xaa j\xc3\xa1 \xc3\xa9 cliente!,Agora preciso confirmar alguns dados com voc\xc3\xaa: \n                     O INSS|SIAPE|ETC continua sendo sua fonte pagadora?'        
     else:
-        contextosDeSaida.append({"name":"creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-naoépublicoalvo", "lifespan":3, "parameters":{}})
-        contextosDeSaida.append({"name":"creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-épublicoalvo", "lifespan":6, "parameters":{}})
+        contextosDeSaida.append({"name":contextos[1], "lifespan":3, "parameters":{}})
+        contextosDeSaida.append({"name":contextos[0], "lifespan":6, "parameters":{}})
         textoSaida = ' Voc\xc3\xaa ainda n\xc3\xa3o \xc3\xa9 cliente do Banco Agiplan?,Ent\xc3\xa3o seja bem vindo!,\n                     Voc\xc3\xaa \xc3\xa9 funcion\xc3\xa1rio p\xc3\xbablico, aposentado ou pensionista?'
 
     return {
