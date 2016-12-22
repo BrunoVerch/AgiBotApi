@@ -96,12 +96,12 @@ def makeWebhookResult(req):
 
     arr = req.get('result').get('contexts')
     saida = []
+    saida.append({"name":"creditoconsignado-solicitacaoemprestimo-dto", "lifespan":2, "parameters":{}})
     if cpf is 123:
         # saida = [v for v in arr if v.get('name') != ctx and v.get('name') != ctx1 ]
         saida.append({"name":"creditoconsignado-solicitacaoemprestimo-confirmardadoscliente", "lifespan":2, "parameters":{}})
         speech = str(len(saida))# \
-             #+ ' Ah, ent\xc3\xa3o voc\xc3\xaa j\xc3\xa1 \xc3\xa9 cliente!,Agora preciso confirmar alguns dados com voc\xc3\xaa: \n                     O INSS|SIAPE|ETC continua sendo sua fonte pagadora?'
-        
+             #+ ' Ah, ent\xc3\xa3o voc\xc3\xaa j\xc3\xa1 \xc3\xa9 cliente!,Agora preciso confirmar alguns dados com voc\xc3\xaa: \n                     O INSS|SIAPE|ETC continua sendo sua fonte pagadora?'        
     else:
         # saida = [v for v in arr if v.get('name') != ctx2 ]
         saida.append({"name":"creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-naoépublicoalvo", "lifespan":2, "parameters":{}})
