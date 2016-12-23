@@ -17,7 +17,7 @@ contextos = [
     'creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-épublicoalvo',
     'creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-naoépublicoalvo',
     'creditoconsignado-solicitacaoemprestimo-dto',
-    'creditoconsignado-solicitacaoemprestimo-confirmardadoscliente-confirmafontepagadora'
+    'creditoconsignado-solicitacaoemprestimo-confirmardadoscliente-confirmafontepagadora',
 ]
 
 @app.route('/webhook', methods=['POST'])
@@ -58,7 +58,7 @@ def verificarCpf(req):
         contextosDeSaida.append({"name":contextos[3], "lifespan":2, "parameters":{}})
 
         contextosDeSaida.append({"name":contextos[2], "lifespan":5, "parameters":{ "perfilCliente":"aposentado", "fontePagamento":"INSS" }})
-        contextosDeSaida.append({"name":contextos[0], "lifespan":2, "parameters":{ "perfilCliente":"aposentado" }})
+        contextosDeSaida.append({"name":contextos[0], "lifespan":2, "parameters":{ "perfilCliente2":"aposentado" }})
 
         # contextosDaRequisicao = req.get('result').get('contexts')
         # dto = [v for v in contextosDaRequisicao if v.get('name') == contextos[3]]
