@@ -53,6 +53,8 @@ def verificarCpf(req):
     cpf = int(req.get('result').get('parameters').get('cpf').get('number'))
 
     if cpf is 123:
+
+        req.get('result').get('parameters')['perfilCliente'] = 'aposentado'
         contextosDeSaida.append({"name":contextos[3], "lifespan":2, "parameters":{}})
 
         contextosDeSaida.append({"name":contextos[2], "lifespan":5, "parameters":{ "perfilCliente":"aposentado", "fontePagamento":"INSS" }})
