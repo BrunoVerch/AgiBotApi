@@ -6,12 +6,7 @@ import urllib
 import json
 import os
 
-from flask
-import Flask
-from flask
-import request
-from flask
-import make_response
+from flask import Flask,request,make_response
 
 # Flask app should start in global layout
 
