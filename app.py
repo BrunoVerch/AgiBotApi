@@ -34,7 +34,7 @@ def webhook():
 
 @app.route('/verificarCPF', methods=['POST'])
 def verificar_cpf():
-    cpf = request.args.get('cpf')
+    cpf = request.form['cpf']
     res = verificar_cpf_motion_ai(cpf)
 
     res = json.dumps(res, indent=4)
