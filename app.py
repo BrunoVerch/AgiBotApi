@@ -1,13 +1,17 @@
 #!/usr/bin/python
-# -*- coding: utf-8 -*-
+
+#- * -coding: utf - 8 - * -
 
 import urllib
 import json
 import os
 
-from flask import Flask
-from flask import request
-from flask import make_response
+from flask
+import Flask
+from flask
+import request
+from flask
+import make_response
 
 # Flask app should start in global layout
 
@@ -32,12 +36,12 @@ app = Flask(__name__)
 #     r.headers['Content-Type'] = 'application/json'
 #     return r
 
-@app.route('/verificarCPF', methods=['POST'])
+@app.route('/verificarCPF', methods = ['POST'])
 def verificar_cpf():
     cpf = request.form['cpf']
     res = verificar_cpf_motion_ai(cpf)
 
-    res = json.dumps(res, indent=4)
+    res = json.dumps(res, indent = 4)
 
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
@@ -58,13 +62,13 @@ def verificar_cpf():
 
 def verificar_cpf_motion_ai(cpf):
 
-    obj = {
-        'perfilCliente': None,
-        'fontePagadora': None,
-        'bancoRecebimento': None,
-        'Renda Aproximada': None,
-        'ehCliente': None
-    }
+  obj = {
+    'perfilCliente': None,
+    'fontePagadora': None,
+    'bancoRecebimento': None,
+    'Renda Aproximada': None,
+    'ehCliente': None
+  }
 
     if cpf is 123:
         obj['perfilCliente'] = 'Aposentado'
@@ -72,11 +76,10 @@ def verificar_cpf_motion_ai(cpf):
         obj['bancoRecebimento'] = 'Banco do Brasil'
         obj['Renda Aproximada'] = 'R$ 1.784,25'
         obj['ehCliente'] = True
-    else:
+    else :
         obj['ehCliente'] = False
-    
-    return obj
 
+    return obj
 
 # def verificarCpf(req):
 #     textoSaida = ''
@@ -114,8 +117,7 @@ def verificar_cpf_motion_ai(cpf):
 #         'source': 'apiai-weather-webhook-sample',
 #         }
 
-
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
 
-    app.run(debug=False, port=port, host='0.0.0.0')
+app.run(debug = False, port = port, host = '0.0.0.0')
