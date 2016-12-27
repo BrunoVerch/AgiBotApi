@@ -32,6 +32,16 @@ def webhook():
     r.headers['Content-Type'] = 'application/json'
     return r
 
+@app.route('/verificarCPF', methods=['POST'])
+def verificar_cpf():
+    cpf = request.args.get('cpf')
+    res = verificar_cpf_motion_ai(cpf)
+
+    res = json.dumps(res, indent=4)
+
+    r = make_response(res)
+    r.headers['Content-Type'] = 'application/json'
+    return r
 
 def processRequest(req):
     action = req.get('result').get('action')
@@ -45,6 +55,28 @@ def processRequest(req):
 
 def efetuarSimulacao(req):
     return ''
+
+def verificar_cpf_motion_ai(cpf):
+
+    obj = {
+        'perfilCliente': None,
+        'fontePagadora': None,
+        'bancoRecebimento': None,
+        'Renda Aproximada': None,
+        'ehCliente': None
+    }
+
+    if cpf is 123:
+        obj['perfilCliente'] = 'Aposentado'
+        obj['fontePagadora'] = 'INSS'
+        obj['bancoRecebimento'] = 'Banco do Brasil'
+        obj['Renda Aproximada'] = 'R$ 1.784,25'
+        obj['ehCliente'] = True
+    else:
+        obj['ehCliente'] = False
+    
+    return obj
+
 
 def verificarCpf(req):
     textoSaida = ''
