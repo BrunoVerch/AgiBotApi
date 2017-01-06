@@ -1,14 +1,11 @@
-#!/usr/bin/python
-
-#- * -coding: utf - 8 - * -
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
 import urllib
 import json
 import os
 
 from flask import Flask,request,make_response
-
-# Flask app should start in global layout
 
 app = Flask(__name__)
 
