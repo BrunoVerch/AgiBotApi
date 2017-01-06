@@ -62,11 +62,11 @@ def verificarCpf(req):
 
     if cpf is 123:
         contextosDeSaida.append({"name":contextoSaida, "lifespan":5, "parameters":{ "perfilCliente":"aposentado", "fontePagamento":"INSS" }})
-        textoSaida = ' Ah, ent\xc3\xa3o voc\xc3\xaa j\xc3\xa1 \xc3\xa9 cliente!,Agora preciso confirmar alguns dados com voc\xc3\xaa: \n O INSS continua sendo sua fonte pagadora?'        
+        textoSaida = ' Ah, então você já é cliente! Agora preciso confirmar alguns dados com você: O INSS continua sendo sua fonte pagadora?'        
     else:
-        textoSaida = ' Voc\xc3\xaa ainda n\xc3\xa3o \xc3\xa9 cliente do Banco Agiplan?,Ent\xc3\xa3o seja bem vindo!,\n Voc\xc3\xaa \xc3\xa9 funcion\xc3\xa1rio p\xc3\xbablico, aposentado ou pensionista?'
+        textoSaida = ' Você ainda não é cliente do Banco Agiplan? Então seja bem vindo! Você é funcionário público, aposentado ou pensionista?'
 
-    return WebhookResponse(textoSaida, textoSaida, None, contextosDeSaida )
+    return WebhookResponse(textoSaida, textoSaida, None, contextosDeSaida)
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
