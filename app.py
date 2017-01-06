@@ -59,7 +59,7 @@ def verificarCpf(req):
     cpf = int(req.result.parameters['cpf']['number'])
 
     if cpf is 123:
-        contextosDeSaida.append({"name":contextoSaida, "lifespan":5, "parameters":{ "perfilCliente":"aposentado", "ehCliente":True, "fontePagadora":"INSS", "rendaAproximada": "1.950,00", "temSeguroDeVida": False, "temCartao": False, "nome": "Hedo" }})
+        contextosDeSaida.append({"name":contextoSaida, "lifespan":5, "parameters":{ "perfilCliente":"aposentado", "bancoRecebimento": "Banco do Brasil", "ehCliente":True, "fontePagadora":"INSS", "rendaAproximada": "1.950,00", "temSeguroDeVida": False, "temCartao": False, "nome": "Hedo" }})
         textoSaida = ' Ah, então você já é cliente! Agora preciso confirmar alguns dados com você: O INSS continua sendo sua fonte pagadora?'        
     else:
         textoSaida = ' Você ainda não é cliente do Banco Agiplan? Então seja bem vindo! Você é funcionário público, aposentado ou pensionista?'
