@@ -32,12 +32,13 @@ class WebhookResponse:
 def webhook():
     req = request.get_json(silent=True, force=True)
 
-    print(json.loads(req.result))
-    req = WebhookRequest(json.loads(req.result))
+    resultJson = req['result']
+    result = Result(resultJson['action'], resultJson['parameters'])
+    req = WebhookRequest(result)
 
     res = processRequest(req)
 
-    res = json.dumps(res, indent=4)
+    res = json.dumps(res.__dict__, indent=4)
 
     r = make_response(res)
     r.headers['Content-Type'] = 'application/json'
@@ -45,7 +46,6 @@ def webhook():
 
 def processRequest(req):
     action = req.result.action
-    print('action: '+action)
 
     if action == 'verificarCpf':
         return verificarCpf(req)
@@ -57,7 +57,6 @@ def verificarCpf(req):
     contextosDeSaida = []
 
     cpf = int(req.result.parameters['cpf']['number'])
-    print('cpf: ' + cpf)
 
     if cpf is 123:
         contextosDeSaida.append({"name":contextoSaida, "lifespan":5, "parameters":{ "perfilCliente":"aposentado", "fontePagamento":"INSS" }})
