@@ -12,16 +12,29 @@ from flask import Flask,request,make_response
 
 app = Flask(__name__)
 
-contextos = [
-    'creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-épublicoalvo',
-    'creditoconsignado-solicitacaoemprestimo-solicitarperfilcliente-naoépublicoalvo',
-    'creditoconsignado-solicitacaoemprestimo-dto',
-    'creditoconsignado-solicitacaoemprestimo-confirmardadoscliente-confirmafontepagadora',
-]
+contextoSaida = 'creditoconsignado-solicitacaoemprestimo-dto'
+
+class Result:
+    def __init__(self, action, parameters):
+      self.action = action
+      self.parameters = parameters
+
+class WebhookRequest:
+   def __init__(self, result):
+      self.result = result
+
+class WebhookResponse:
+   def __init__(self, speech, displayText, data, contextOut):
+      self.speech = speech
+      self.displayText = displayText
+      self.data = data
+      self.contextOut = contextOut
+      self.source = 'apiai-weather-webhook-sample'
 
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
+    req = WebhookRequest(req.result)
 
     res = processRequest(req)
 
@@ -31,86 +44,29 @@ def webhook():
     r.headers['Content-Type'] = 'application/json'
     return r
 
-@app.route('/verificarCPF', methods = ['POST'])
-def verificar_cpf():
-    cpf = request.form['cpf']
-    res = verificar_cpf_motion_ai(cpf)
-
-    res = json.dumps(res, indent = 4)
-
-    r = make_response(res)
-    r.headers['Content-Type'] = 'application/json'
-    return r
-
 def processRequest(req):
-    action = req.get('result').get('action')
+    action = req.result.action
+    print('action: '+action)
 
     if action == 'verificarCpf':
         return verificarCpf(req)
-    if action == 'efetuarSimulacao':
-        return efetuarSimulacao(req)
     
     return {}
-
-def efetuarSimulacao(req):
-    return ''
-
-def verificar_cpf(cpf):
-
-  obj = {
-    'perfilCliente': None,
-    'fontePagadora': None,
-    'bancoRecebimento': None,
-    'rendaAproximada': None,
-    'ehCliente': None
-  }
-
-    if cpf is 123:
-        obj['perfilCliente'] = 'Aposentado'
-        obj['fontePagadora'] = 'INSS'
-        obj['bancoRecebimento'] = 'Banco do Brasil'
-        obj['rendaAproximada'] = 'R$ 1.784,25'
-        obj['ehCliente'] = True
-    else :
-        obj['ehCliente'] = False
-
-    return obj
 
 def verificarCpf(req):
     textoSaida = ''
     contextosDeSaida = []
 
-    cpf = int(req.get('result').get('parameters').get('cpf').get('number'))
+    cpf = int(req.result.parameters['cpf']['number'])
+    print('cpf: ' + cpf)
 
     if cpf is 123:
-
-        req.get('result').get('parameters')['perfilCliente'] = 'aposentado'
-        contextosDeSaida.append({"name":contextos[3], "lifespan":2, "parameters":{}})
-
-        contextosDeSaida.append({"name":contextos[2], "lifespan":5, "parameters":{ "perfilCliente":"aposentado", "fontePagamento":"INSS" }})
-        contextosDeSaida.append({"name":contextos[0], "lifespan":2, "parameters":{ "perfilCliente2":"aposentado" }})
-
-        # contextosDaRequisicao = req.get('result').get('contexts')
-        # dto = [v for v in contextosDaRequisicao if v.get('name') == contextos[3]]
-        # contextosDaRequisicao.remove(dto[0])
-        # dto[0].get('parameters')['perfilCliente'] = 'aposentado'
-        # dto[0].get('parameters')['fontePagamento'] = 'INSS'
-        # contextosDaRequisicao.append(dto[0])
-
-        textoSaida = ' Ah, ent\xc3\xa3o voc\xc3\xaa j\xc3\xa1 \xc3\xa9 cliente!,Agora preciso confirmar alguns dados com voc\xc3\xaa: \n                     O INSS continua sendo sua fonte pagadora?'        
+        contextosDeSaida.append({"name":contextoSaida, "lifespan":5, "parameters":{ "perfilCliente":"aposentado", "fontePagamento":"INSS" }})
+        textoSaida = ' Ah, ent\xc3\xa3o voc\xc3\xaa j\xc3\xa1 \xc3\xa9 cliente!,Agora preciso confirmar alguns dados com voc\xc3\xaa: \n O INSS continua sendo sua fonte pagadora?'        
     else:
-        contextosDeSaida.append({"name":contextos[2], "lifespan":5, "parameters":{}})
-        contextosDeSaida.append({"name":contextos[1], "lifespan":3, "parameters":{}})
-        contextosDeSaida.append({"name":contextos[0], "lifespan":6, "parameters":{}})
-        textoSaida = ' Voc\xc3\xaa ainda n\xc3\xa3o \xc3\xa9 cliente do Banco Agiplan?,Ent\xc3\xa3o seja bem vindo!,\n                     Voc\xc3\xaa \xc3\xa9 funcion\xc3\xa1rio p\xc3\xbablico, aposentado ou pensionista?'
+        textoSaida = ' Voc\xc3\xaa ainda n\xc3\xa3o \xc3\xa9 cliente do Banco Agiplan?,Ent\xc3\xa3o seja bem vindo!,\n Voc\xc3\xaa \xc3\xa9 funcion\xc3\xa1rio p\xc3\xbablico, aposentado ou pensionista?'
 
-    return {
-        'speech': textoSaida,
-        'displayText': textoSaida,
-        'contextOut': contextosDeSaida,
-        # "data": data,
-        'source': 'apiai-weather-webhook-sample',
-        }
+    return WebhookResponse(textoSaida, textoSaida, None, contextosDeSaida )
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
