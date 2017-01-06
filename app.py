@@ -16,7 +16,7 @@ class Result:
       self.action = action
       self.parameters = parameters
 
-class WebhookRequest:
+class WebhookRequest(object):
    def __init__(self, result):
       self.result = result
 
@@ -31,7 +31,7 @@ class WebhookResponse:
 @app.route('/webhook', methods=['POST'])
 def webhook():
     req = request.get_json(silent=True, force=True)
-    req = WebhookRequest(req.result)
+    req = WebhookRequest(json.loads(req.result))
 
     res = processRequest(req)
 
